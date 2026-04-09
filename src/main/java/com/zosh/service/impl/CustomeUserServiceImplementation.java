@@ -1,0 +1,61 @@
+package com.zosh.service.impl;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.zosh.domain.USER_ROLE;
+import com.zosh.model.Seller;
+import com.zosh.repository.SellerRepository;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
+import com.zosh.model.User;
+import com.zosh.repository.UserRepository;
+
+@Service
+public class CustomeUserServiceImplementation implements UserDetailsService {
+
+	private final UserRepository userRepository;
+	private final SellerRepository sellerRepository;
+	private static final String SELLER_PREFIX = "seller_";
+
+	public CustomeUserServiceImplementation(UserRepository userRepository, SellerRepository sellerRepository) {
+		this.userRepository = userRepository;
+		this.sellerRepository = sellerRepository;
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		if (username.startsWith(SELLER_PREFIX)) {
+			// Remove prefix to get the actual username/email
+			String actualUsername = username.substring(SELLER_PREFIX.length());
+			Seller seller = sellerRepository.findByEmail(actualUsername);
+			if (seller != null) {
+				return buildUserDetails(seller.getEmail(), seller.getPassword(), seller.getRole());
+			}
+		} else {
+			User user = userRepository.findByEmail(username);
+			if (user != null) {
+				return buildUserDetails(user.getEmail(), user.getPassword(), user.getRole());
+			}
+		}
+		throw new UsernameNotFoundException("User or Seller not found with email - " + username);
+	}
+
+	private UserDetails buildUserDetails(String email, String password, USER_ROLE role) {
+		if (role == null) role = USER_ROLE.ROLE_CUSTOMER;
+
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority(role.toString()));
+		// Core classes and interfaces related to user authentication and authorization,
+		//as well as the maintenance of a security context.
+		// it like giving a user a acccess to ur resources which are comming from db and making him a secure 
+		return new org.springframework.security.core.userdetails.User(email, password, authorities);
+		// Can be the traditional way UserDetailsService which uses a unique username to identify the user
+		//or, for more complex requirements, the AuthenticationUserDetailsService.
+	}
+}
