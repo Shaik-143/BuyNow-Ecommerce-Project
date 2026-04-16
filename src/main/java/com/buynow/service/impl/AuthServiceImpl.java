@@ -72,7 +72,7 @@ public class AuthServiceImpl implements AuthService {
         verificationCode.setEmail(email);
         verificationCodeRepository.save(verificationCode);
 
-        String subject = "Zosh Bazaar Login/Signup Otp";
+        String subject = "Buy Now Login/Signup Otp";
         String text = "your login otp is - ";
         emailService.sendVerificationOtpEmail(email, otp, subject, text);
         
@@ -97,7 +97,6 @@ public class AuthServiceImpl implements AuthService {
             createdUser.setEmail(email);
             createdUser.setFullName(fullName);
             createdUser.setRole(USER_ROLE.ROLE_CUSTOMER);
-            createdUser.setMobile("9083476123");
             createdUser.setPassword(passwordEncoder.encode(otp));
 
             System.out.println(createdUser);
