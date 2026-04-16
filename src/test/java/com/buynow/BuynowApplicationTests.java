@@ -1,10 +1,10 @@
-package com.zosh;
+package com.buynow;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class EcommerceMultiVendorApplicationTests {
+class BuynowApplicationTests {
 
 	@Test
 	void contextLoads() {
