@@ -43,7 +43,7 @@ public class AppConfig {
             @Override
             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                 CorsConfiguration cfg = new CorsConfiguration();
-                cfg.setAllowedOrigins(Arrays.asList("https://zosh-bazzar-zosh.vercel.app", "http://localhost:3000"));
+                cfg.setAllowedOrigins(Arrays.asList("https://buy-now.vercel.app", "http://localhost:3000"));
                 cfg.setAllowedMethods(Collections.singletonList("*"));// all methods get,post,put,delete,patch
                 cfg.setAllowCredentials(true);
                 cfg.setAllowedHeaders(Collections.singletonList("*")); // headers are allowed
