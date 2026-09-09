@@ -76,7 +76,7 @@ POST /api/orders
 
 - Implement microservices architecture
 - Add caching (Redis)
-- 
+  
 10. 🔹 Author Section
 ## Author
 
