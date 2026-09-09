@@ -74,7 +74,6 @@ POST /api/orders
 9. 🔹 Future Improvements
 ## Future Improvements
 
-- Add payment gateway integration
 - Implement microservices architecture
 - Add caching (Redis)
 - 
